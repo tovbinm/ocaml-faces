@@ -1,0 +1,9 @@
+setup.data
+setup.log
+src/ofacesutil.ml*
+src/ofacesutil_wrap*
+src/*.so
+src/*.o
+src/*.a
+src/swig*
+src/*.cm*

@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: 0e1202de81ae90244bf3feee63e079e0)
+version = "0.1"
+description = "OCaml library for face detection using OpenCV"
+archive(byte) = "ofaces.cma"
+archive(byte, plugin) = "ofaces.cma"
+archive(native) = "ofaces.cmxa"
+archive(native, plugin) = "ofaces.cmxs"
+exists_if = "ofaces.cma"
+# OASIS_STOP
+

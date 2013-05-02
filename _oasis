@@ -1,0 +1,18 @@
+OASISFormat: 0.3
+Name:        ofaces
+Version:     0.1
+Synopsis:    OCaml library for face detection using OpenCV
+Authors:     Matthew Tovbin
+License:     FreeBSD
+Plugins:     META (0.3)
+BuildType:   Custom (0.3)
+InstallType: Custom (0.3)
+XCustomBuild: make -C src all opt PREFIX=$(prefix)
+XCustomBuildClean: make -C src clean
+XCustomInstall: cd src; ocamlfind install ofaces ofaces.mli ofaces.cma ofaces.cmxa META ofaces.a ofaces.cmxs ofaces.cmi ofaces.cmx dllofaces.so
+XCustomUninstall: ocamlfind remove ofaces
+
+Library ofaces
+  Path: src
+  BuildTools: swig
+  Modules: Ofaces
