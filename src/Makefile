@@ -1,13 +1,14 @@
 TARGET     = ofaces
 CC         = gcc
 CXX        = g++
-CFLAGS     =
+CFLAGS     = `pkg-config --cflags opencv`
 PREFIX     = /usr/local
 SRCS       = faces/faces.c
 OBJS       = faces.o
 INCLUDES   = -I. -I$(PREFIX)/include
-LIBS       = -L. -L$(PREFIX)/lib
-MORELIBS   = -lstdc++
+LIBS       = -L. -L$(PREFIX)/lib -L`pkg-config --libs opencv | cut -d' ' -f1 | xargs dirname` \
+						 -lstdc++ -lopencv_core -lopencv_objdetect -lopencv_imgproc -lopencv_highgui
+CLIBS      = `pkg-config --libs opencv`
 PROGFILE   = ofaces.ml
 INTERFACE  = ofacesutil.i
 INTERFACEDIR  =
@@ -43,7 +44,7 @@ all:
 	$(SWIG) -ocaml -c++ $(SWIGOPT) $(INTERFACEPATH)
 	cp $(ICXXSRCS) $(ICXXSRCS:%.cxx=%.c)
 	sed -i '' 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
-	$(OCC) -cc '$(CXX) -Wno-write-strings' -g -c -ccopt -g -ccopt -fPIC \
+	$(OCC) -cc '$(CXX) -Wno-write-strings $(CFLAGS)' -g -c -ccopt -g -ccopt -fPIC \
 		-ccopt "-xc++ $(INCLUDES)" \
 		$(ICXXSRCS:%.cxx=%.c) $(SRCS) $(CXXSRCS)
 	$(OCC) -g -c $(INTERFACE:%.i=%.mli) $(INTERFACE:%.i=%.ml)
@@ -51,7 +52,7 @@ all:
 		$(OCC) $(OCAMLPP) -c $(PROGFILE:%.ml=%.mli)
 	test -z "$(PROGFILE)" || test -f "$(PROGFILE)" && \
 		$(OCC) $(OCAMLPP) -c $(PROGFILE)
-	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) $(MORELIBS) \
+	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
 		swig.cmo $(INTERFACE:%.i=%.cmo) $(PROGFILE:%.ml=%.cmo) $(INTERFACE:%.i=%_wrap.o) $(OBJS)
 
 opt:
@@ -61,7 +62,7 @@ opt:
 		$(OCAMLOPT) $(OCAMLPP) -c $(PROGFILE:%.ml=%.mli)
 	test -z "$(PROGFILE)" || test -f "$(PROGFILE)" && \
 		$(OCAMLOPT) $(OCAMLPP) -c $(PROGFILE)
-	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) $(MORELIBS) \
+	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
 		swig.cmx $(INTERFACE:%.i=%.cmx) $(PROGFILE:%.ml=%.cmx)
 	$(OCAMLOPT) -shared -linkall -o $(TARGET).cmxs $(TARGET).cmxa
 
