@@ -52,7 +52,7 @@ all:
 		$(OCC) $(OCAMLPP) -c $(PROGFILE:%.ml=%.mli)
 	test -z "$(PROGFILE)" || test -f "$(PROGFILE)" && \
 		$(OCC) $(OCAMLPP) -c $(PROGFILE)
-	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
+	$(NOLINK) || $(OCAMLMKLIB) -verbose -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
 		swig.cmo $(INTERFACE:%.i=%.cmo) $(PROGFILE:%.ml=%.cmo) $(INTERFACE:%.i=%_wrap.o) $(OBJS)
 
 opt:
@@ -62,7 +62,7 @@ opt:
 		$(OCAMLOPT) $(OCAMLPP) -c $(PROGFILE:%.ml=%.mli)
 	test -z "$(PROGFILE)" || test -f "$(PROGFILE)" && \
 		$(OCAMLOPT) $(OCAMLPP) -c $(PROGFILE)
-	$(NOLINK) || $(OCAMLMKLIB) -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
+	$(NOLINK) || $(OCAMLMKLIB) -verbose -ccopt -g -cclib -g -o $(TARGET) $(LIBS) \
 		swig.cmx $(INTERFACE:%.i=%.cmx) $(PROGFILE:%.ml=%.cmx)
 	$(OCAMLOPT) -shared -linkall -o $(TARGET).cmxs $(TARGET).cmxa
 

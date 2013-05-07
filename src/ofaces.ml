@@ -22,8 +22,7 @@ let nested_nascade_name () = _NestedCascadeName '() as string
 let set_nested_nascade_name v = let _ = _NestedCascadeName '((v to string)) in ()
 
 let init () =
-    let _ = _init '() in
-    ()
+    (_init '()) as int
 
 let default_face =
   { centerX = 0;
@@ -42,8 +41,15 @@ let to_face f =
     oppositeY = (f -> oppositeY ()) as int;
   }
 
-let detect_faces image_name =
-    let v = new_FaceVector (_detectFaces '((image_name to string))) in
-    let f = Array.make ((v -> size()) as int) default_face in
-    let _ = vector_to_array v to_face f in
+let to_faces faces =
+    let f = Array.make ((faces -> size()) as int) default_face in
+    let _ = vector_to_array faces to_face f in
     Array.to_list f
+
+let detect_faces_file image_name =
+    let v = new_FaceVector (_detectFacesFile '((image_name to string))) in
+    to_faces v
+
+let detect_faces_img image n =
+    let v = new_FaceVector (_detectFacesImg '((C_string image), (n to int))) in
+    to_faces v

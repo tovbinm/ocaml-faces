@@ -9,7 +9,7 @@ BuildType:   Custom (0.3)
 InstallType: Custom (0.3)
 XCustomBuild: make -C src all opt PREFIX=$(prefix)
 XCustomBuildClean: make -C src clean
-XCustomInstall: cd src; ocamlfind install ofaces ofaces.mli ofaces.cma ofaces.cmxa META ofaces.a ofaces.cmxs ofaces.cmi ofaces.cmx swig.cmo swig.cmi swig.cmx swig.o dllofaces.so
+XCustomInstall: cd src; ocamlfind install ofaces META dllofaces.so libofaces.a ofaces.a ofaces.cma ofaces.cmi ofaces.cmo ofaces.cmx ofaces.cmxa ofaces.cmxs ofaces.mli ofacesutil.cmi ofacesutil.cmo ofacesutil.cmx ofacesutil.mli swig.cmi swig.cmo swig.cmx swig.mli
 XCustomUninstall: ocamlfind remove ofaces
 
 Library ofaces
