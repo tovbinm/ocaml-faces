@@ -27,7 +27,9 @@ $ brew install swig
 *** On Debian:
 
 ```
-TBD
+$ wget http://sourceforge.net/projects/swig/files/swig/swig-2.0.9/swig-2.0.9.tar.gz
+$ tar -xvzf swig-2.0.9.tar.gz && cd swig-2.0.9
+$ ./configure && make && make install
 ```
 
 
@@ -43,4 +45,10 @@ $ ocaml setup.ml -install
 Usage
 ------------
 
-TBD
+```
+(* Intialize cascades (on app start) *)
+Ofaces.init ();;
+(* Detect some faces *)
+let faces = Ofaces.detect_faces_file "pic.jpg" in
+Printf.printf "Detected %d face(s)\n" (List.length faces);;
+```

@@ -19,6 +19,7 @@ IWRAP      = $(INTERFACE:.i=_wrap.i)
 ISRCS      = $(IWRAP:.i=.c)
 ICXXSRCS   = $(IWRAP:.i=.cxx)
 IOBJS      = $(IWRAP:.i=.o)
+UNAME 		 = $(shell uname)
 
 ##################################################################
 #####                          Ocaml                         #####
@@ -43,7 +44,11 @@ all:
 	$(OCAMLCORE)
 	$(SWIG) -ocaml -c++ $(SWIGOPT) $(INTERFACEPATH)
 	cp $(ICXXSRCS) $(ICXXSRCS:%.cxx=%.c)
-	sed -i '' 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
+ifeq ($(UNAME),Darwin)
+		sed -i '' 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
+else
+		sed -i.bak 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
+endif
 	$(OCC) -cc '$(CXX) -Wno-write-strings $(CFLAGS)' -g -c -ccopt -g -ccopt -fPIC \
 		-ccopt "-xc++ $(INCLUDES)" \
 		$(ICXXSRCS:%.cxx=%.c) $(SRCS) $(CXXSRCS)
@@ -70,4 +75,4 @@ clean:
 	rm -f *_wrap* *~ .~* *.cmo *.cmi *.cma *.cmx *.cmxa *.cmxs
 	rm -f swig.mli swig.cmi swig.ml swig.cmo swigp4.ml swigp4.cmo
 	rm -f core
-	rm -f *.a *.o *.so
+	rm -f *.a *.o *.so *.bak
