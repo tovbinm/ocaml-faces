@@ -19,7 +19,7 @@ IWRAP      = $(INTERFACE:.i=_wrap.i)
 ISRCS      = $(IWRAP:.i=.c)
 ICXXSRCS   = $(IWRAP:.i=.cxx)
 IOBJS      = $(IWRAP:.i=.o)
-UNAME 		 = $(shell uname)
+UNAME      = $(shell uname)
 
 ##################################################################
 #####                          Ocaml                         #####
@@ -45,9 +45,9 @@ all:
 	$(SWIG) -ocaml -c++ $(SWIGOPT) $(INTERFACEPATH)
 	cp $(ICXXSRCS) $(ICXXSRCS:%.cxx=%.c)
 ifeq ($(UNAME),Darwin)
-		sed -i '' 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
+	sed -i '' 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
 else
-		sed -i.bak 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
+	sed -i.bak 's:SWIGSTATIC int caml_array_length:CAMLextern mlsize_t caml_array_length:g' $(ISRCS)
 endif
 	$(OCC) -cc '$(CXX) -Wno-write-strings $(CFLAGS)' -g -c -ccopt -g -ccopt -fPIC \
 		-ccopt "-xc++ $(INCLUDES)" \
