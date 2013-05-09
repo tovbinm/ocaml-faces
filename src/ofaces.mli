@@ -11,6 +11,9 @@ type face = {
 val scale : unit -> float
 val set_scale : float -> unit
 
+val min_size : unit -> int
+val set_min_size : int -> unit
+
 val cascade_name : unit -> string
 val set_cascade_name : string -> unit
 

@@ -15,7 +15,8 @@ using namespace cv;
 
 /* Some global variables */
 double Scale = 1.0;
-string CascadeName = "./faces/haarcascades/haarcascade_frontalface_alt.xml";
+int MinSize = 30;
+string CascadeName = "./faces/haarcascades/haarcascade_frontalface_alt_tree.xml";
 string NestedCascadeName = "./faces/haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier cascade, nestedCascade;
 
@@ -54,9 +55,8 @@ vector<Face> detectFaces(Mat& image, bool isGrayscale, vector<Face>& faces) {
         1.1, 2, 0
         //|CV_HAAR_FIND_BIGGEST_OBJECT
         //|CV_HAAR_DO_ROUGH_SEARCH
-        |CV_HAAR_SCALE_IMAGE
-        ,
-        Size(30, 30) );
+        |CV_HAAR_SCALE_IMAGE,
+        Size(MinSize, MinSize) );
 
   t = (double)cvGetTickCount() - t;
   printf( "INFO: face detection time = %gms. detected: %d face(s)\n",

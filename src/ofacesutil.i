@@ -24,6 +24,7 @@ public:
 
 %inline %{
 extern double Scale;
+extern int MinSize;
 extern std::string CascadeName;
 extern std::string NestedCascadeName;
 extern int init();

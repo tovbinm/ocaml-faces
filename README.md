@@ -47,9 +47,15 @@ Usage
 ------------
 
 ```
-(* Intialize cascades (on app start) *)
-Ofaces.init ();;
-(* Detect some faces *)
-let faces = Ofaces.detect_faces_file "pic.jpg" in
-Printf.printf "Detected %d face(s)\n" (List.length faces);;
+(* Intialization *)
+Ofaces.set_scale 1.0;;
+Ofaces.set_min_size 30;;
+Ofaces.set_cascade_name "haarcascades/haarcascade_frontalface_alt_tree.xml";;
+match Ofaces.init () with
+  | 0 ->
+    (* Detect some faces *)
+    let faces = Ofaces.detect_faces_file "pic.jpg" in
+    Printf.printf "Detected %d face(s)\n" (List.length faces)
+  | _ ->
+    Printf.printf "There was an error initializing Ofaces library";;
 ```

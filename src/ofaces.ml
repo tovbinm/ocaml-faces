@@ -15,6 +15,9 @@ type face = {
 let scale () = _Scale '() as float
 let set_scale v = let _ = _Scale '((v to float)) in ()
 
+let min_size () = _MinSize '() as int
+let set_min_size v = let _ = _MinSize '((v to int)) in ()
+
 let cascade_name () = _CascadeName '() as string
 let set_cascade_name v = let _ = _CascadeName '((v to string)) in ()
 
